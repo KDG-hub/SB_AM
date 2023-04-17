@@ -17,8 +17,6 @@ public class ArticleService {
 	@Autowired
 	public ArticleService(ArticleRepository articleRepository) {
 		this.articleRepository = articleRepository;
-
-		articleRepository.makeTestData();
 	}
 
 	public Article writeArticle(String title, String body) {

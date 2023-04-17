@@ -1,0 +1,59 @@
+# DB 삭제/생성/사용
+DROP DATABASE IF EXISTS SB_AM;
+CREATE DATABASE SB_AM;
+USE SB_AM;
+
+# article 테이블 생성
+CREATE TABLE article(
+	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	regDate DATETIME NOT NULL,
+	updateDate DATETIME NOT NULL,
+	title VARCHAR(100) NOT NULL,
+	`body` TEXT NOT NULL
+);
+
+# member 테이블 생성
+CREATE TABLE `member`(
+	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	regDate DATETIME NOT NULL,
+	updateDate DATETIME NOT NULL,
+	loginId VARCHAR(50) NOT NULL UNIQUE,
+	loginPw VARCHAR(50) NOT NULL,
+	memberName VARCHAR(50) NOT NULL
+);
+
+# article 테스트 데이터
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+title = 'test1',
+`body` = 'test1';
+
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+title = 'test2',
+`body` = 'test2';
+
+
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'test1',
+loginPw = 'test1',
+memberName = '유저1';
+
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'test2',
+loginPw = 'test2',
+memberName = '유저2';
+
+SELECT * FROM article;
+SELECT * FROM `member`;
+
+SELECT A.*, m.memberName AS writerName FROM article A
+INNER JOIN `member` m
+ON A.memberId = m.id
+ORDER BY A.id DESC;
