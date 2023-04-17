@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.koreaIT.demo.repository.MemberRepository">
+
+	<select id="doJoin">
+		INSERT INTO `member`
+			SET regDate = NOW();,
+				updateDate = NOW();,
+				loginId = #{loginId},
+				loginPw = #{loginPw},
+				`name` = #{name},
+				nickName = #{nickName},
+				cellphoneNum = #{cellphoneNum},
+				email = #{email}
+	</select>
+	
+	<select id="idDupChk">
+		SELECT COUNT(*) &gt; 0 FROM `member`
+		WHERE loginId = #{loginId}
+	</select>
+
+</mapper>

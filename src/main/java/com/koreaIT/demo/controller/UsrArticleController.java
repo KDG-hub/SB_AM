@@ -1,6 +1,5 @@
 package com.koreaIT.demo.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ public class UsrArticleController {
 
 	private ArticleService articleService;
 	
-	@Autowired
+	@Autowired //의존성 주입
 	public UsrArticleController(ArticleService articleService) {
 		this.articleService = articleService;
 	}
@@ -25,7 +24,12 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
 	public Article doAdd(String title, String body) {
-		return articleService.writeArticle(title, body);
+		
+		articleService.writeArticle(title, body);
+		
+		int id = articleService.getLastInsertId();
+	
+		return articleService.getArticleById(id);
 	}
 	
 	@RequestMapping("/usr/article/getArticle")
