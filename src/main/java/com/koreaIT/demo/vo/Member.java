@@ -1,13 +1,19 @@
 package com.koreaIT.demo.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member {
-	int id;
-	String regDate;
-	String updateDate;
-	String loginId;
-	String loginPw;
-	String name;
-	String nickName;
-	String cellphoneNum;
-	String email;
+ 	private int id;
+ 	private String regDate;
+ 	private String updateDate;
+ 	private String loginId;
+ 	private String name;
+ 	private String nickName;
+ 	private String cellphoneNum;
+ 	private String email;
 }

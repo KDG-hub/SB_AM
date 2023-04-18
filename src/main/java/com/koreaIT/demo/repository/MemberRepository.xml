@@ -4,19 +4,24 @@
 
 	<select id="doJoin">
 		INSERT INTO `member`
-			SET regDate = NOW();,
-				updateDate = NOW();,
-				loginId = #{loginId},
-				loginPw = #{loginPw},
-				`name` = #{name},
-				nickName = #{nickName},
-				cellphoneNum = #{cellphoneNum},
-				email = #{email}
-	</select>
-	
-	<select id="idDupChk">
-		SELECT COUNT(*) &gt; 0 FROM `member`
-		WHERE loginId = #{loginId}
+				SET regDate = NOW(),
+					updateDate = NOW(),
+					loginId = #{loginId},
+					loginPw = #{loginPw},
+					`name` = #{name},
+					nickName = #{nickName},
+					cellphoneNum = #{cellphoneNum},
+					email = #{email}
 	</select>
 
+	<select id="getMemberById" resultType="Member">
+		SELECT *
+			FROM `member`
+			WHERE id = #{id}
+	</select>
+	
+	<select id="getLastInsertId" resultType="int">
+		SELECT LAST_INSERT_ID();
+	</select>
+	
 </mapper>
