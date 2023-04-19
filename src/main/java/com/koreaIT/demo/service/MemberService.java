@@ -18,7 +18,7 @@ public class MemberService {
 		this.memberRepository = memberRepository;
 	}
 	
-	public ResultData doJoin(String loginId, String loginPw, String name, String nickName, String cellphoneNum, String email) {
+	public ResultData<Integer> doJoin(String loginId, String loginPw, String name, String nickName, String cellphoneNum, String email) {
 
 		Member existsMember = memberRepository.getMemberByLoginId(loginId);
 		
@@ -38,9 +38,7 @@ public class MemberService {
 		
 		memberRepository.doJoin(loginId, loginPw, name, nickName, cellphoneNum, email);
 		
-		int id = getLastInsertId();
-		
-		return ResultData.from("S-1",Utility.f("%s님 환영합니다.", nickName),id);
+		return ResultData.from("S-1", Utility.f("%s회원님이 가입되었습니다", loginId), memberRepository.getLastInsertId());
 	}
 
 	public int getLastInsertId() {

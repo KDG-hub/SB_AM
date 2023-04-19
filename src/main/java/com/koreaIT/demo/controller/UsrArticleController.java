@@ -25,7 +25,7 @@ public class UsrArticleController {
 	// 액션 메서드
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public ResultData doAdd(String title, String body) {
+	public ResultData<Article> doAdd(String title, String body) {
 		if(Utility.empty(title)) {
 			return ResultData.from("F-1",Utility.f("제목을 작성해주세요."));
 		}
@@ -41,7 +41,7 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
-	public ResultData getArticle(int id) {
+	public ResultData<Article> getArticle(int id) {
 
 		Article article = articleService.getArticleById(id);
 
