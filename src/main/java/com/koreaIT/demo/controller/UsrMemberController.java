@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.koreaIT.demo.service.MemberService;
 import com.koreaIT.demo.util.Utility;
 import com.koreaIT.demo.vo.Member;
+import com.koreaIT.demo.vo.ResultData;
 
 @Controller
 public class UsrMemberController {
@@ -21,37 +22,36 @@ public class UsrMemberController {
 	
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
-	public String doJoin(String loginId, String loginPw, String loginPwChk , String name, String nickName, String cellphoneNum, String email) {
+	public ResultData doJoin(String loginId, String loginPw, String loginPwChk , String name, String nickName, String cellphoneNum, String email) {
 		if(Utility.empty(loginId)) {
-			return "아이디를 입력해주세요";
+			return ResultData.from("F-1", Utility.f("아이디를 입력해주세요."));
 		}
 		if(Utility.empty(loginPw)) {
-			return "비밀번호를 입력해주세요";
+			return ResultData.from("F-2", Utility.f("비밀번호를 입력해주세요."));
 		}
 		if(Utility.empty(name)) {
-			return "이름을 입력해주세요";
+			return ResultData.from("F-3", Utility.f("이름을 입력해주세요."));
 		}
 		if(Utility.empty(cellphoneNum)) {
-			return "전화번호를 입력해주세요";
+			return ResultData.from("F-4", Utility.f("전화번호를 입력해주세요."));
 		}
 		if(Utility.empty(nickName)) {
-			return "닉네임을 입력해주세요";
+			return ResultData.from("F-5", Utility.f("닉네임을 입력해주세요."));
 		}
 		if(Utility.empty(email)) {
-			return "이메일을 입력해주세요";
+			return ResultData.from("F-5", Utility.f("이메일을 입력해주세요."));
 		}
 		if(loginPw == loginPwChk) {
-			return "비밀번호를 확인해주세요";
+			return ResultData.from("F-6", Utility.f("패스워드를 확인해주세요."));
 		}
 		
-		int id = memberService.doJoin(loginId, loginPw, name, nickName, cellphoneNum, email);
+		ResultData doJoinRd = memberService.doJoin(loginId, loginPw, name, nickName, cellphoneNum, email);
 		
-		if(id == -1) {
-			return "중복된 아이디입니다.";
+		if (doJoinRd.isFail()) {
+			return doJoinRd;
 		}
+		int id = (int) doJoinRd.getData1();
 		
-		Member member = memberService.getMemberById(id);
-			
-		return member.getNickName() + "님 환영합니다.";
+		return ResultData.from(doJoinRd.getResultCode(), doJoinRd.getMsg(),id);
 	}
 }

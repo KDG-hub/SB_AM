@@ -4,10 +4,10 @@
 
 	<select id="writeArticle">
 		INSERT INTO article
-			SET regDate = NOW();,
-				updateDate = NOW();,
+			SET regDate = NOW(),
+				updateDate = NOW(),
 				title = #{title},
-				`body` = #{body}; 
+				`body` = #{body}
 	</select>
 
 	<select id="getArticleById" resultType="Article">
@@ -17,7 +17,7 @@
 	</select>
 	
 	<select id="getLastInsertId" resultType="int">
-		SELECT LAST_INSERT_ID();
+		SELECT LAST_INSERT_ID()
 	</select>
 	
 	<select id="getArticles" resultType="Article">
