@@ -2,6 +2,8 @@ package com.koreaIT.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,14 +27,20 @@ public class UsrArticleController {
 	// 액션 메서드
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public ResultData<Article> doAdd(String title, String body) {
+	public ResultData<Article> doAdd(HttpSession HttpSession, String title, String body) {
+		if(HttpSession.getAttribute("loginedMemberId") == null) {
+			return ResultData.from("F-1", Utility.f("로그인 후 이용해주세요."));
+		}
 		if(Utility.empty(title)) {
-			return ResultData.from("F-1",Utility.f("제목을 작성해주세요."));
+			return ResultData.from("F-2",Utility.f("제목을 작성해주세요."));
 		}
 		if(Utility.empty(body)) {
-			return ResultData.from("F-2",Utility.f("내용을 작성해주세요."));
+			return ResultData.from("F-3",Utility.f("내용을 작성해주세요."));
 		}
-		articleService.writeArticle(title, body);
+		
+		int memberId = (int)HttpSession.getAttribute("loginedMemberId");
+		
+		articleService.writeArticle(title, body, memberId);
 		
 		int id = articleService.getLastInsertId();
 	
@@ -59,12 +67,17 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public ResultData doModify(int id, String title, String body) {
-		
+	public ResultData doModify(HttpSession HttpSession, int id, String title, String body) {
+		if(HttpSession.getAttribute("loginedMemberId") == null) {
+			return ResultData.from("F-1", Utility.f("로그인 후 이용해주세요."));
+		}
 		Article article = articleService.getArticleById(id);
 		
 		if(article == null) {
-			return ResultData.from("F-1",Utility.f("%d번 글은 존재하지 않습니다.", id));
+			return ResultData.from("F-2",Utility.f("%d번 글은 존재하지 않습니다.", id));
+		}
+		if(article.getMemberId() != (int)HttpSession.getAttribute("loginedMemberId")) {
+			return ResultData.from("F-3",Utility.f("권한이 없습니다"));
 		}
 		
 		articleService.modifyArticle(id, title, body);
@@ -74,12 +87,17 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public ResultData doDelete(int id) {
-		
+	public ResultData doDelete(HttpSession HttpSession, int id) {
+		if(HttpSession.getAttribute("loginedMemberId") == null) {
+			return ResultData.from("F-1", Utility.f("로그인 후 이용해주세요."));
+		}
 		Article article = articleService.getArticleById(id);
 		
 		if(article == null) {
-			return ResultData.from("F-1",Utility.f("%d번 글은 존재하지 않습니다.", id));
+			return ResultData.from("F-2",Utility.f("%d번 글은 존재하지 않습니다.", id));
+		}
+		if(article.getMemberId() != (int)HttpSession.getAttribute("loginedMemberId")) {
+			return ResultData.from("F-3",Utility.f("권한이 없습니다"));
 		}
 		
 		articleService.deleteArticle(id);

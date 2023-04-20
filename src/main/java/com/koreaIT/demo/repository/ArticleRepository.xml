@@ -7,7 +7,8 @@
 			SET regDate = NOW(),
 				updateDate = NOW(),
 				title = #{title},
-				`body` = #{body}
+				`body` = #{body},
+				memberId = #{memberId}
 	</select>
 
 	<select id="getArticleById" resultType="Article">
