@@ -43,4 +43,6 @@ public interface ArticleRepository {
 //	@Delete("DELETE FROM article WHERE id = #{id}")
 	public void deleteArticle(int id);
 
+	public Article getForPrintArticle(int id);
+
 }

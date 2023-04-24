@@ -48,16 +48,13 @@ public class UsrArticleController {
 		return ResultData.from("S-1",Utility.f("%d글이 작성되었습니다.", articleService.getLastInsertId()));
 	}
 	
-	@RequestMapping("/usr/article/getArticle")
-	@ResponseBody
-	public ResultData<Article> getArticle(int id) {
-
-		Article article = articleService.getArticleById(id);
-
-		if(article == null) {
-			return ResultData.from("F-1", Utility.f("%d번 게시물은 존재하지 않습니다.", id));
-		}
-		return ResultData.from("S-1", Utility.f("%d번 게시물 입니다", id), "Article", article);
+	@RequestMapping("/usr/article/detail")
+	public String showDetail(Model model, int id) {
+ 
+		Article article = articleService.getForPrintArticle(id);
+		model.addAttribute("article", article);
+		
+		return "usr/article/detail";
 		}
 	
 	@RequestMapping("/usr/article/list")

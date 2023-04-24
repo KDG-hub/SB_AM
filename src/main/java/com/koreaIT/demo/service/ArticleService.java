@@ -59,4 +59,8 @@ private ArticleRepository articleRepository;
 		
 		return ResultData.from("S-A", "수정가능");
 	}
+
+	public Article getForPrintArticle(int id) {
+		return articleRepository.getForPrintArticle(id);
+	}
 }
