@@ -39,7 +39,7 @@ private ArticleRepository articleRepository;
 	public ResultData<Article> modifyArticle(int id, String title, String body) {
 		articleRepository.modifyArticle(id, title, body);
 		Article article = getArticleById(id);
-		return ResultData.from("S-1", Utility.f("%d번 게시글이 수정되었습니다.", id), article);
+		return ResultData.from("S-1", Utility.f("%d번 게시글이 수정되었습니다.", id), "Article", article);
 	}
 	
 	public void deleteArticle(int id) {

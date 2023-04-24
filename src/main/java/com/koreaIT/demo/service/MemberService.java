@@ -38,7 +38,7 @@ public class MemberService {
 		
 		memberRepository.doJoin(loginId, loginPw, name, nickName, cellphoneNum, email);
 		
-		return ResultData.from("S-1", Utility.f("%s회원님이 가입되었습니다", loginId), memberRepository.getLastInsertId());
+		return ResultData.from("S-1", Utility.f("%s회원님이 가입되었습니다", loginId), "MemberId", memberRepository.getLastInsertId());
 	}
 
 	public int getLastInsertId() {
