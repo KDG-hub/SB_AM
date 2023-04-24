@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.koreaIT.demo.repository.ArticleRepository;
+import com.koreaIT.demo.util.Utility;
 import com.koreaIT.demo.vo.Article;
+import com.koreaIT.demo.vo.ResultData;
 
 @Service
 public class ArticleService {
@@ -34,11 +36,27 @@ private ArticleRepository articleRepository;
 		return articleRepository.getArticles();
 	}
 	
-	public void modifyArticle(int id, String title, String body) {
+	public ResultData<Article> modifyArticle(int id, String title, String body) {
 		articleRepository.modifyArticle(id, title, body);
+		Article article = getArticleById(id);
+		return ResultData.from("S-1", Utility.f("%d번 게시글이 수정되었습니다.", id), article);
 	}
 	
 	public void deleteArticle(int id) {
 		articleRepository.deleteArticle(id);
+	}
+
+	public ResultData actorCanModify(int HttpSessoin, int id, String title, String body) {
+		
+		Article article = getArticleById(id);
+		if(article == null) {
+			return ResultData.from("F-B",Utility.f("%d번 글은 존재하지 않습니다.", id));
+		}
+		
+		if(article.getMemberId() != HttpSessoin) {
+			return ResultData.from("F-C",Utility.f("권한이 없습니다"));
+		}
+		
+		return ResultData.from("S-A", "수정가능");
 	}
 }

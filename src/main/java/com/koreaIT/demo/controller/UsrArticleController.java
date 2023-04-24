@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -29,13 +30,13 @@ public class UsrArticleController {
 	@ResponseBody
 	public ResultData<Article> doAdd(HttpSession HttpSession, String title, String body) {
 		if(HttpSession.getAttribute("loginedMemberId") == null) {
-			return ResultData.from("F-1", Utility.f("로그인 후 이용해주세요."));
+			return ResultData.from("F-A", Utility.f("로그인 후 이용해주세요."));
 		}
 		if(Utility.empty(title)) {
-			return ResultData.from("F-2",Utility.f("제목을 작성해주세요."));
+			return ResultData.from("F-1",Utility.f("제목을 작성해주세요."));
 		}
 		if(Utility.empty(body)) {
-			return ResultData.from("F-3",Utility.f("내용을 작성해주세요."));
+			return ResultData.from("F-2",Utility.f("내용을 작성해주세요."));
 		}
 		
 		int memberId = (int)HttpSession.getAttribute("loginedMemberId");
@@ -67,37 +68,34 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public ResultData doModify(HttpSession HttpSession, int id, String title, String body) {
-		if(HttpSession.getAttribute("loginedMemberId") == null) {
-			return ResultData.from("F-1", Utility.f("로그인 후 이용해주세요."));
+	public ResultData<Article> doModify(HttpSession HttpSession, int id, String title, String body) {
+		if(HttpSession == null) {
+			return ResultData.from("F-A", Utility.f("로그인 후 이용해주세요."));
 		}
-		Article article = articleService.getArticleById(id);
+
+		ResultData actorCanModifyRd = articleService.actorCanModify((int)HttpSession.getAttribute("loginedMemberId"), id, title, body);
 		
-		if(article == null) {
-			return ResultData.from("F-2",Utility.f("%d번 글은 존재하지 않습니다.", id));
-		}
-		if(article.getMemberId() != (int)HttpSession.getAttribute("loginedMemberId")) {
-			return ResultData.from("F-3",Utility.f("권한이 없습니다"));
+		if(actorCanModifyRd.isFail()) {
+			return actorCanModifyRd;
 		}
 		
-		articleService.modifyArticle(id, title, body);
-		
-		return ResultData.from("S-1",Utility.f("%d번 글이 수정되었습니다.", id));
+		return articleService.modifyArticle(id, title, body);
 	}
 	
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public ResultData doDelete(HttpSession HttpSession, int id) {
 		if(HttpSession.getAttribute("loginedMemberId") == null) {
-			return ResultData.from("F-1", Utility.f("로그인 후 이용해주세요."));
+			return ResultData.from("F-A", Utility.f("로그인 후 이용해주세요."));
 		}
+		
 		Article article = articleService.getArticleById(id);
 		
 		if(article == null) {
-			return ResultData.from("F-2",Utility.f("%d번 글은 존재하지 않습니다.", id));
+			return ResultData.from("F-B",Utility.f("%d번 글은 존재하지 않습니다.", id));
 		}
 		if(article.getMemberId() != (int)HttpSession.getAttribute("loginedMemberId")) {
-			return ResultData.from("F-3",Utility.f("권한이 없습니다"));
+			return ResultData.from("F-C",Utility.f("권한이 없습니다"));
 		}
 		
 		articleService.deleteArticle(id);
