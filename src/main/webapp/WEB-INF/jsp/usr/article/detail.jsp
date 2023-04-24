@@ -34,8 +34,10 @@
 			</div>
 			<div class="mt-8" >
 				<button type="button" onclick="history.back();">뒤로가기</button>&nbsp;
-				<a class="btn-text-link" href="doModify?id=${article.id }">수정</a>&nbsp;
-				<a class="btn-text-link" href="doDelete?id${article.id }">삭제</a>
+				<c:if test="${article.actorCanChangeData }">
+					<a class="btn-text-link" href="doModify?id=${article.id }">수정</a>&nbsp;
+					<a class="btn-text-link" href="doDelete?id${article.id }" >삭제</a>
+				</c:if>
 			</div>
 		</div>
 	</section>

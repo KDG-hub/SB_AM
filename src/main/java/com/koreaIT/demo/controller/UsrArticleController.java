@@ -49,19 +49,27 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/detail")
-	public String showDetail(Model model, int id) {
- 
-		Article article = articleService.getForPrintArticle(id);
+	public String showDetail(Model model, HttpSession httpSession, int id) {
+		
+		int loginedMemberId = 0;
+		
+		if (httpSession.getAttribute("loginedMemberId") != null) {
+			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
+		}
+		
+		Article article = articleService.getForPrintArticle(loginedMemberId, id);
+		
 		model.addAttribute("article", article);
 		
 		return "usr/article/detail";
-		}
+	}
 	
 	@RequestMapping("/usr/article/list")
 	public String showList(Model model) {
 		List<Article> articles = articleService.getArticles();
-		model.addAttribute("articles",articles);
-	
+		
+		model.addAttribute("articles", articles);
+		
 		return "usr/article/list";
 	}
 	
