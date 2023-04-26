@@ -1,12 +1,8 @@
 package com.koreaIT.demo.vo;
 
-import java.io.IOException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.koreaIT.demo.util.Utility;
 
 import lombok.Getter;
 
@@ -33,18 +29,14 @@ public class Rq {
 		this.loginedMemberId = loginedMemberId;
 	}
 
-	public void jsPrintHistoryBack(String msg) {
-		resp.setContentType("text/html; charset=UTF-8;");
-		
-		print(Utility.jsHistoryBack(msg));
-	}
-
-	private void print(String str) {
-		try {
-			resp.getWriter().append(str);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	/*
+	 * public void jsPrintHistoryBack(String msg) {
+	 * resp.setContentType("text/html; charset=UTF-8;");
+	 * 
+	 * print(Utility.jsHistoryBack(msg)); }
+	 * 
+	 * private void print(String str) { try { resp.getWriter().append(str); } catch
+	 * (IOException e) { e.printStackTrace(); } }
+	 */
 
 }

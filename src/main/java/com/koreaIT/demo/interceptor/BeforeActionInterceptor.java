@@ -9,7 +9,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.koreaIT.demo.vo.Rq;
 
 @Component
-public class BeforeActotionInterceptor implements HandlerInterceptor {
+public class BeforeActionInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
