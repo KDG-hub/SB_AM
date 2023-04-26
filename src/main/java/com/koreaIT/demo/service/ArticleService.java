@@ -20,8 +20,8 @@ private ArticleRepository articleRepository;
 		this.articleRepository = articleRepository;
 	}
 	
-	public void writeArticle(String title, String body, int memberId) {
-		articleRepository.writeArticle(title, body, memberId);
+	public void writeArticle(int memberId, String title, String body) {
+		articleRepository.writeArticle(memberId, title, body);
 	}
 
 	public int getLastInsertId() {
@@ -46,48 +46,35 @@ private ArticleRepository articleRepository;
 		articleRepository.deleteArticle(id);
 	}
 
-	public ResultData actorCanModify(int HttpSessoin, int id, String title, String body) {
-		
-		Article article = getArticleById(id);
+	public ResultData actorCanMD(int loginedMemberId, Article article) {
 		if(article == null) {
-			return ResultData.from("F-B",Utility.f("%d번 글은 존재하지 않습니다.", id));
+			return ResultData.from("F-1", "해당 게시물은 존재하지 않습니다");
 		}
 		
-		if(article.getMemberId() != HttpSessoin) {
-			return ResultData.from("F-C",Utility.f("권한이 없습니다"));
+		if (loginedMemberId != article.getMemberId()) {
+			return ResultData.from("F-B", "해당 게시물에 대한 권한이 없습니다");	
 		}
 		
-		return ResultData.from("S-A", "수정가능");
+		return ResultData.from("S-1", "가능");
 	}
 
 	public Article getForPrintArticle(int loginedMemberId, int id) {
-
+		
 		Article article = articleRepository.getForPrintArticle(id);
-
+		
 		actorCanChangeData(loginedMemberId, article);
-
+		
 		return article;
 	}
 
 	private void actorCanChangeData(int loginedMemberId, Article article) {
-		if(article == null) {
-			return;
-		}
-
-		ResultData actorCanChangeDataRd = actorCanDelete(loginedMemberId, article);
-
+		
+		ResultData actorCanChangeDataRd = actorCanMD(loginedMemberId, article);
+		
 		article.setActorCanChangeData(actorCanChangeDataRd.isSuccess());
 	}
 
-	private ResultData actorCanDelete(int loginedMemberId, Article article) {
-		if(article == null) {
-			return ResultData.from("F-1", "해당 게시물은 존재하지 않습니다");
-		}
+	
 
-		if (loginedMemberId != article.getMemberId()) {
-			return ResultData.from("F-B", "해당 게시물에 대한 권한이 없습니다");	
-		}
 
-		return ResultData.from("S-1", "삭제 가능");
-	}
 }

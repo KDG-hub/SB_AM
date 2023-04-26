@@ -8,7 +8,7 @@ import com.koreaIT.demo.vo.Article;
 public interface ArticleRepository {
 
 	// 서비스 메서드
-	public void writeArticle(String title, String body, int memberId);
+	public void writeArticle(int memberId, String title, String body);
 
 	public int getLastInsertId();
 	
