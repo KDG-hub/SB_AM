@@ -38,6 +38,22 @@ public class Utility {
 	}
 
 	public static String jsReplace(String msg, String uri) {
-		return null;
+		if (msg == null) {
+			msg = "";
+		}
+		
+		if (uri == null) {
+			msg = "";
+		}
+	
+		return Utility.f("""
+				<script>
+					const msg = '%s'.trim();
+					if (msg.length > 0) {
+						alert(msg);
+					}
+					location.replace('%s');
+				</script>
+				""", msg, uri);
 	}
 }
