@@ -17,7 +17,7 @@ public class NeedLoginInterceptor implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		response.setContentType("text/html; charset=UTF-8;");
-		Rq rq = (Rq) request.getAttribute("Rq");
+		Rq rq = (Rq) request.getAttribute("rq");
 		
 		if(rq.getLoginedMemberId() == 0) {
 			response.getWriter().append(Utility.jsHistoryBack("로그인 후 이용해주세요."));

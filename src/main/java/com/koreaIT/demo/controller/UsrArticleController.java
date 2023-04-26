@@ -31,7 +31,7 @@ public class UsrArticleController {
 	@ResponseBody
 	public ResultData<Article> doAdd(HttpServletRequest req, String title, String body) {
 
-		Rq rq =(Rq) req.getAttribute("Rq");
+		Rq rq =(Rq) req.getAttribute("rq");
 
 		if (Utility.empty(title)) {
 			return ResultData.from("F-1", "제목을 입력해주세요");
@@ -51,7 +51,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, HttpServletRequest req, int id) {
 
-		Rq rq =(Rq) req.getAttribute("Rq");
+		Rq rq =(Rq) req.getAttribute("rq");
 
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
@@ -73,7 +73,7 @@ public class UsrArticleController {
 	@ResponseBody
 	public ResultData<Article> doModify(HttpServletRequest req, int id, String title, String body) {
 
-		Rq rq =(Rq) req.getAttribute("Rq");
+		Rq rq =(Rq) req.getAttribute("rq");
 
 		Article article = articleService.getArticleById(id);
 
@@ -90,7 +90,7 @@ public class UsrArticleController {
 	@ResponseBody
 	public String doDelete(HttpServletRequest req, int id) {
 
-		Rq rq =(Rq) req.getAttribute("Rq");
+		Rq rq =(Rq) req.getAttribute("rq");
 
 		Article article = articleService.getArticleById(id);
 

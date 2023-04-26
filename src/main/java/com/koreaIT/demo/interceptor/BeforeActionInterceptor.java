@@ -15,7 +15,7 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		Rq rq = new Rq(request, response);
-		request.setAttribute("Rq", rq);
+		request.setAttribute("rq", rq);
 		
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
