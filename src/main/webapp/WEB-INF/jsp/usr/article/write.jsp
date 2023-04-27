@@ -13,7 +13,7 @@
 						</colgroup>
 						<tr>
 							<th>제목</th>
-							<td><input class="input input-bordered w-full max-w-xs" type="text" name ="title""/></td>
+							<td><input class="input input-bordered w-full"type="text" name ="title""/></td>
 						</tr>
 						<tr>
 							<th>내용</th>

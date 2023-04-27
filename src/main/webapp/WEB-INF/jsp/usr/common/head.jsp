@@ -25,7 +25,8 @@
 		<div class="flex-grow"></div>
 		<ul class="flex">
 			<li class="hover:underline"><a class="h-full px-3 flex items-center btn btn-primary" href="/"><span>HOME</span></a></li>
-			<li class="hover:underline"><a class="h-full px-3 flex items-center btn btn-primary" href="/usr/article/list"><span>LIST</span></a></li>
+			<li class="hover:underline"><a class="h-full px-3 flex items-center btn btn-primary" href="/usr/article/list?boardId=2"><span>Notice</span></a></li>
+			<li class="hover:underline"><a class="h-full px-3 flex items-center btn btn-primary" href="/usr/article/list?boardId=1"><span>Free</span></a></li>
 			<c:if test="${rq.getLoginedMemberId()  == 0}">
 				<li class="hover:underline"><a class="h-full px-3 flex items-center btn btn-primary" href="/usr/member/login"><span>LOGIN</span></a></li>
 			</c:if>
@@ -37,6 +38,6 @@
 	
 	<section class="my-3 text-2xl">
 		<div class="container mx-auto px-3">
-			<h1>${pageTitle }&nbsp;Page</h1>
+			<h1>${pageTitle }</h1>
 		</div>
 	</section>

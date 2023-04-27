@@ -32,8 +32,8 @@ private ArticleRepository articleRepository;
 		return articleRepository.getArticleById(id);
 	}
 	
-	public List<Article> getArticles(){
-		return articleRepository.getArticles();
+	public List<Article> getArticles(int boardId){
+		return articleRepository.getArticles(boardId);
 	}
 	
 	public void modifyArticle(int id, String title, String body) {
