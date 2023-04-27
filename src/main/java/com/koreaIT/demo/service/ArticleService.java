@@ -36,10 +36,9 @@ private ArticleRepository articleRepository;
 		return articleRepository.getArticles();
 	}
 	
-	public ResultData<Article> modifyArticle(int id, String title, String body) {
+	public void modifyArticle(int id, String title, String body) {
 		articleRepository.modifyArticle(id, title, body);
-		Article article = getArticleById(id);
-		return ResultData.from("S-1", Utility.f("%d번 게시글이 수정되었습니다.", id), "Article", article);
+	
 	}
 	
 	public void deleteArticle(int id) {
@@ -58,23 +57,18 @@ private ArticleRepository articleRepository;
 		return ResultData.from("S-1", "가능");
 	}
 
-	public Article getForPrintArticle(int loginedMemberId, int id) {
+	public Article getForPrintArticle(int id) {
 		
 		Article article = articleRepository.getForPrintArticle(id);
 		
-		actorCanChangeData(loginedMemberId, article);
 		
 		return article;
 	}
 
-	private void actorCanChangeData(int loginedMemberId, Article article) {
+	public void actorCanChangeData(int loginedMemberId, Article article) {
 		
 		ResultData actorCanChangeDataRd = actorCanMD(loginedMemberId, article);
 		
 		article.setActorCanChangeData(actorCanChangeDataRd.isSuccess());
 	}
-
-	
-
-
 }

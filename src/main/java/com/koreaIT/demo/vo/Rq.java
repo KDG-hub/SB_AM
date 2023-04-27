@@ -37,6 +37,12 @@ public class Rq {
 		httpSession.removeAttribute("loginedMemberId");
 	}
 
+	public String jsReturnOnView(String msg, boolean isHistorBack) {
+		req.setAttribute("msh", msg);
+		req.setAttribute("isHistorBack", isHistorBack);
+		return "usr/common/js";
+	}
+
 	/*
 	 * public void jsPrintHistoryBack(String msg) {
 	 * resp.setContentType("text/html; charset=UTF-8;");

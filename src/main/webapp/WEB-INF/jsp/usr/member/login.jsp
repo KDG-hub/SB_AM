@@ -7,7 +7,7 @@
 		<div class="container mx-auto px-3">
 			<form action="doLogin" method="POST">
 				<div class="table-box-type-1">
-					<table>
+					<table class="table table-zebra w-full">
 						<colgroup>
 							<col width="200" />
 						</colgroup>

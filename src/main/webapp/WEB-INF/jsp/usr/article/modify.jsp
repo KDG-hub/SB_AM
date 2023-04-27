@@ -5,8 +5,10 @@
 <%@ include file="../common/head.jsp" %>
 	<section class="mt-8 text-xl">
 		<div class="container mx-auto px-3">
+		<form action="doModify" method="POST">
+			<input type="hidden" name="id" value="${article.id }"/>
 			<div class="table-box-type-1">
-				<table class="table w-full table-zebra "" >
+				<table class="table table-zebra w-full">
 					<colgroup>
 						<col width="200"/>
 					</colgroup>
@@ -24,20 +26,19 @@
 					</tr>
 					<tr>
 						<th>제목</th>
-						<td>${article.title }</td>
+						<td><input class="input input-bordered w-full max-w-xs" type="text" name ="title" value="${article.title }"/></td>
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td>${article.body }</td>
+						<td><textarea class="textarea textarea-bordered w-full " name="body" >${article.body }</textarea></td>
 					</tr>
 				</table>
+				<div class="flex justify-end">
+						<button class="h-full px-3 flex items-center btn btn-primary">작성</button>
+				</div>
 			</div>
-			<div class="mt-8" >
-				<button type="button" onclick="history.back();">뒤로가기</button>&nbsp;
-				<c:if test="${article.actorCanChangeData }">
-					<a class="btn-text-link" href="modify?id=${article.id }">수정</a>&nbsp;
-					<a class="btn-text-link" href="doDelete?id${article.id }" onclick ="if(confirm("정말 삭제하시겠습니까?") == false) return false;" >삭제</a>
-				</c:if>
+		</form>
+				<button lass="h-full px-3 flex items-center btn btn-primary" type="button" onclick="history.back();">뒤로가기</button>&nbsp;
 			</div>
 		</div>
 	</section>

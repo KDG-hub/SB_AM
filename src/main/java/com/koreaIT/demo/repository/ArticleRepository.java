@@ -12,7 +12,7 @@ public interface ArticleRepository {
 
 	public int getLastInsertId();
 	
-//	@Select("SELECT * FROM article WHERE ID = #{ID}")
+//	@Select("""SELECT * FROM article WHERE ID = #{ID}")
 	public Article getArticleById(int id);
 	
 //	@Select("SELECT * FROM article ORDER BY id DESC")
