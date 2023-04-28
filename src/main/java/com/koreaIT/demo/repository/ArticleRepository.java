@@ -45,4 +45,6 @@ public interface ArticleRepository {
 
 	public Article getForPrintArticle(int id);
 
+	public int getBoardCount(int boardId);
+
 }

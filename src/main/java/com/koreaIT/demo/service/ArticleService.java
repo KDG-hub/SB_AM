@@ -71,4 +71,9 @@ private ArticleRepository articleRepository;
 		
 		article.setActorCanChangeData(actorCanChangeDataRd.isSuccess());
 	}
+
+	public int getBoardCount(int boardId) {
+		
+		return articleRepository.getBoardCount(boardId);
+	}
 }

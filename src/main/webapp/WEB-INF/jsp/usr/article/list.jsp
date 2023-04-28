@@ -5,7 +5,8 @@
 <%@ include file="../common/head.jsp" %>
 	<section class="mt-8 text-xl">
 		<div class="container mx-auto px-3">
-			<div class="mb-2 flex justify-end">
+			<div class="mb-2 flex justify-between items-center">
+				<div>게시글 수 : ${boardCount}</div>
 				<c:if test="${rq.getLoginedMemberId() !=0 }">
 						<a href="write" class="h-full px-3 flex items-center btn btn-primary">글쓰기</a>
 				</c:if>

@@ -57,4 +57,10 @@
 		DELETE FROM article
 			WHERE id = #{id}
 	</delete>
+	
+	<select id="getBoardCount" resultType="int">
+		SELECT COUNT(*) 
+			FROM article
+			WHERE boardId = #{boardId};
+	</select>
 </mapper>
