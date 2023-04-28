@@ -39,7 +39,7 @@ public class UsrArticleController {
 	// 액션 메서드
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public String doAdd(HttpServletRequest req, String title, String body) {
+	public String doAdd(HttpServletRequest req, int boardId, String title, String body) {
 
 		Rq rq =(Rq) req.getAttribute("rq");
 
@@ -51,7 +51,7 @@ public class UsrArticleController {
 			return Utility.jsHistoryBack("내용을 입력해주세요");
 		}
 
-		articleService.writeArticle(rq.getLoginedMemberId(), title, body);
+		articleService.writeArticle(rq.getLoginedMemberId(), boardId, title, body);
 
 		int id = articleService.getLastInsertId();
 

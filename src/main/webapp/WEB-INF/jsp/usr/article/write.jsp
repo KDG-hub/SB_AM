@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="pageTitle" value="detail" />
+<c:set var="pageTitle" value="write" />
 <%@ include file="../common/head.jsp" %>
 	<section class="mt-8 text-xl">
 		<div class="container mx-auto px-3">
@@ -11,6 +11,14 @@
 						<colgroup>
 							<col width="200"/>
 						</colgroup>
+						<tr>
+							<th>게시판</th>
+							<td><select name="boardId">
+									<option value="1">자유게시판</option>
+									<option value="2">공지사항</option>
+								</select>
+							</td>
+						</tr>
 						<tr>
 							<th>제목</th>
 							<td><input class="input input-bordered w-full"type="text" name ="title""/></td>
