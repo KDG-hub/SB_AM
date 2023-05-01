@@ -60,7 +60,8 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String list(HttpServletRequest req, Model model, @RequestParam(defaultValue = "2") int boardId, @RequestParam(defaultValue = "1") int page) {
+	public String list(HttpServletRequest req, Model model, @RequestParam(defaultValue = "2") int boardId, @RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "title") String searchKeywordType,
+			@RequestParam(defaultValue = "") String searchKeyword) {
 
 		Board board = boardService.getBoardById(boardId);
 		Rq rq = (Rq) req.getAttribute("rq");	
@@ -73,12 +74,12 @@ public class UsrArticleController {
 			return rq.jsReturnOnView("존재하지 않는 게시판입니다.", true);
 		}
 		
-		int boardCount = articleService.getBoardCount(boardId);
+		int boardCount = articleService.getBoardCount(boardId, searchKeywordType, searchKeyword);
 		
 		int itemsInAPage = 10;
 		int pagesCount =(int) Math.ceil((double)boardCount / itemsInAPage);
 		
-		List<Article> articles = articleService.getArticles(boardId, page, itemsInAPage);
+		List<Article> articles = articleService.getArticles(boardId, page, itemsInAPage , searchKeywordType, searchKeyword);
 
 		model.addAttribute("articles", articles);
 		model.addAttribute("board",board);

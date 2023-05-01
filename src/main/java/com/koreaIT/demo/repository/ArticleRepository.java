@@ -16,7 +16,7 @@ public interface ArticleRepository {
 	public Article getArticleById(int id);
 	
 //	@Select("SELECT * FROM article ORDER BY id DESC")
-	public List<Article> getArticles(int boardId, int limitStart, int itemsInAPage);
+	public List<Article> getArticles(int boardId, int limitStart, int itemsInAPage, String searchKeywordType, String searchKeyword);
 	
 	/*
 	//방법1
@@ -45,6 +45,6 @@ public interface ArticleRepository {
 
 	public Article getForPrintArticle(int id);
 
-	public int getBoardCount(int boardId);
+	public int getBoardCount(int boardId, String searchKeywordType, String searchKeyword);
 
 }

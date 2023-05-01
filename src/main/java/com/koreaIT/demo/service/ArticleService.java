@@ -31,10 +31,10 @@ private ArticleRepository articleRepository;
 		return articleRepository.getArticleById(id);
 	}
 	
-	public List<Article> getArticles(int boardId, int page, int itemsInAPage){
+	public List<Article> getArticles(int boardId, int page, int itemsInAPage, String searchKeywordType, String searchKeyword){
 		int limitStart = (page-1) *itemsInAPage;
 		
-		return articleRepository.getArticles(boardId, limitStart, itemsInAPage);
+		return articleRepository.getArticles(boardId, limitStart, itemsInAPage , searchKeywordType, searchKeyword);
 	}
 	
 	public void modifyArticle(int id, String title, String body) {
@@ -73,8 +73,8 @@ private ArticleRepository articleRepository;
 		article.setActorCanChangeData(actorCanChangeDataRd.isSuccess());
 	}
 
-	public int getBoardCount(int boardId) {
+	public int getBoardCount(int boardId, String searchKeywordType, String searchKeyword) {
 		
-		return articleRepository.getBoardCount(boardId);
+		return articleRepository.getBoardCount(boardId, searchKeywordType, searchKeyword);
 	}
 }
