@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.koreaIT.demo.repository.ArticleRepository;
-import com.koreaIT.demo.util.Utility;
 import com.koreaIT.demo.vo.Article;
 import com.koreaIT.demo.vo.ResultData;
 
@@ -32,8 +31,10 @@ private ArticleRepository articleRepository;
 		return articleRepository.getArticleById(id);
 	}
 	
-	public List<Article> getArticles(int boardId){
-		return articleRepository.getArticles(boardId);
+	public List<Article> getArticles(int boardId, int page, int itemsInAPage){
+		int limitStart = (page-1) *itemsInAPage;
+		
+		return articleRepository.getArticles(boardId, limitStart, itemsInAPage);
 	}
 	
 	public void modifyArticle(int id, String title, String body) {

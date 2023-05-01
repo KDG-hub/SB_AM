@@ -7,6 +7,31 @@
 		<div class="container mx-auto px-3">
 			<div class="mb-2 flex justify-between items-center">
 				<div>게시글 수 : ${boardCount}</div>
+					<div class="btn-group">
+						<c:set var="pageMenuLen" value="5" />
+						<c:set var="startPage" value="${page - pageMenuLen >= 1 ? page - pageMenuLen : 1 }" />
+						<c:set var="endPage" value="${page + pageMenuLen <= pagesCount ? page + pageMenuLen : pagesCount }" />
+	
+						<c:if test="${page == 1 }">
+							<a class="btn btn-sm btn-disabled">«</a>
+							<a class="btn btn-sm btn-disabled">&lt;</a>
+						</c:if>
+						<c:if test="${page > 1 }">
+							<a class="btn btn-sm" href="?boardId=${board.id }&page=1">«</a>
+							<a class="btn btn-sm" href="?boardId=${board.id }&page=${page - 1 }">&lt;</a>
+						</c:if>
+						<c:forEach begin="${startPage }" end="${endPage }" var="i">
+							<a class="btn btn-sm ${page == i ? 'btn-active' : '' }" href="?boardId=${board.id }&page=${i }">${i }</a>
+						</c:forEach>
+						<c:if test="${page < pagesCount }">
+							<a class="btn btn-sm" href="?boardId=${board.id }&page=${page + 1 }">&gt;</a>
+							<a class="btn btn-sm" href="?boardId=${board.id }&page=${pagesCount }">»</a>
+						</c:if>
+						<c:if test="${page == pagesCount }">
+							<a class="btn btn-sm btn-disabled">&gt;</a>
+							<a class="btn btn-sm btn-disabled">»</a>
+						</c:if>
+					</div>
 				<c:if test="${rq.getLoginedMemberId() !=0 }">
 						<a href="write" class="h-full px-3 flex items-center btn btn-primary">글쓰기</a>
 				</c:if>

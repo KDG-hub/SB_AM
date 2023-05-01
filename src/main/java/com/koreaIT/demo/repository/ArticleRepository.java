@@ -16,7 +16,7 @@ public interface ArticleRepository {
 	public Article getArticleById(int id);
 	
 //	@Select("SELECT * FROM article ORDER BY id DESC")
-	public List<Article> getArticles(int boardId);
+	public List<Article> getArticles(int boardId, int limitStart, int itemsInAPage);
 	
 	/*
 	//방법1

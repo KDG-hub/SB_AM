@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.koreaIT.demo.service.ArticleService;
@@ -58,8 +59,39 @@ public class UsrArticleController {
 		return Utility.jsReplace("게시글이 작성되었습니다.", Utility.f("detail?id=%d", id));
 	}
 
+	@RequestMapping("/usr/article/list")
+	public String list(HttpServletRequest req, Model model, @RequestParam(defaultValue = "2") int boardId, @RequestParam(defaultValue = "1") int page) {
+
+		Board board = boardService.getBoardById(boardId);
+		Rq rq = (Rq) req.getAttribute("rq");	
+		
+		if(page <= 0) {
+			return rq.jsReturnOnView("페이지 번호가 옳바르지않습니다.", true);
+		}
+		
+		if(board == null) {
+			return rq.jsReturnOnView("존재하지 않는 게시판입니다.", true);
+		}
+		
+		int boardCount = articleService.getBoardCount(boardId);
+		
+		int itemsInAPage = 10;
+		int pagesCount =(int) Math.ceil((double)boardCount / itemsInAPage);
+		
+		List<Article> articles = articleService.getArticles(boardId, page, itemsInAPage);
+
+		model.addAttribute("articles", articles);
+		model.addAttribute("board",board);
+		model.addAttribute("boardCount", boardCount);
+		model.addAttribute("pagesCount", pagesCount);
+		model.addAttribute("page", page);
+
+		
+		return "usr/article/list";
+	}
+	
 	@RequestMapping("/usr/article/detail")
-	public String showDetail(Model model, HttpServletRequest req, int id) {
+	public String detail(Model model, HttpServletRequest req, int id) {
 
 		Rq rq =(Rq) req.getAttribute("rq");
 
@@ -72,24 +104,6 @@ public class UsrArticleController {
 		return "usr/article/detail";
 	}
 
-	@RequestMapping("/usr/article/list")
-	public String showList(HttpServletRequest req, Model model, int boardId) {
-		
-		Board board = boardService.getBoardById(boardId);
-		Rq rq = (Rq) req.getAttribute("rq");		
-		if(board == null) {
-			return rq.jsReturnOnView("존재하지 않는 게시판입니다.", true);
-		}
-		
-		int boardCount = articleService.getBoardCount(boardId);
-		List<Article> articles = articleService.getArticles(boardId);
-
-		model.addAttribute("articles", articles);
-		model.addAttribute("board",board);
-		model.addAttribute("boardCount", boardCount);
-		
-		return "usr/article/list";
-	}
 	
 	@RequestMapping("/usr/article/modify")
 	public String modify(HttpServletRequest req, Model model ,int id) {
