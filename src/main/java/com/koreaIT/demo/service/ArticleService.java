@@ -82,4 +82,9 @@ private ArticleRepository articleRepository;
 		articleRepository.increaseViewCnt(id);
 	}
 
+	public void upReactionPoint(int memberId, int relTypeCode) {
+		articleRepository.upReactionPoint(memberId, relTypeCode);
+		
+	}
+
 }

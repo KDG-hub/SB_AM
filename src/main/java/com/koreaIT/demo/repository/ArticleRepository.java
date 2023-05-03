@@ -51,4 +51,6 @@ public interface ArticleRepository {
 
 	public int getArticleViewCount(int id);
 
+	public void upReactionPoint(int memberId, int relTypeCode);
+
 }

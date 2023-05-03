@@ -97,14 +97,13 @@ public class UsrArticleController {
 	public String detail(Model model, HttpServletRequest req, HttpServletResponse resp, int id) {
 
 		Rq rq =(Rq) req.getAttribute("rq");
-		
 
 		Cookie oldCookie = null;
 		Cookie[] cookies = req.getCookies();
 
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("hitCount")) {
+				if (cookie.getName().equals("viewCount")) {
 					oldCookie = cookie;
 				}
 			}
@@ -120,7 +119,7 @@ public class UsrArticleController {
 			}
 		} else {
 			articleService.increaseViewCnt(id);
-			Cookie newCookie = new Cookie("hitCount", "[" + id + "]");
+			Cookie newCookie = new Cookie("viewCount", "[" + id + "]");
 			newCookie.setPath("/");
 			newCookie.setMaxAge(30 * 60);
 			resp.addCookie(newCookie);
@@ -135,22 +134,11 @@ public class UsrArticleController {
 		return "usr/article/detail";
 	}
 	
-//	@RequestMapping("/usr/article/doIncreaseViewCount")
-//	@ResponseBody
-//	public ResultData<Integer> doIncreaseViewCount(int id) {
-//
-//		ResultData<Integer> increaseViewCountRd = articleService.increaseViewCnt(id);
-//
-//		if (increaseViewCountRd.isFail()) {
-//			return increaseViewCountRd;
-//		}
-//
-//		ResultData<Integer> rd = ResultData.from(increaseViewCountRd.getResultCode(), increaseViewCountRd.getMsg(), "ViewCount", articleService.getArticleViewCount(id));
-//
-//		rd.setData2("id", id);
-//
-//		return rd;
-//	}
+	@RequestMapping("/usr/article/upReactionPoint")
+	@ResponseBody
+	public void upReactionPoint(HttpServletRequest req, int memberId, int relTypeCode) {
+		articleService.upReactionPoint(memberId, relTypeCode);
+	}
 	
 	@RequestMapping("/usr/article/modify")
 	public String modify(HttpServletRequest req, Model model ,int id) {

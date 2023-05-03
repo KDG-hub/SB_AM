@@ -36,6 +36,13 @@
 			WHERE id = #{id}
 	</update>
 	
+	<select id="upReactionPoint">
+		INSERT INTO article
+			SET regDate = NOW(),
+				updateDate = NOW(),
+				relType = 'article',
+	</select>
+	
 	<select id="getArticles" resultType="Article">
 		SELECT A.*, M.name AS writerName 
 			FROM article AS A
