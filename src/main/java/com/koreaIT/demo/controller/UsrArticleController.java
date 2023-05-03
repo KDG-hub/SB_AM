@@ -95,6 +95,13 @@ public class UsrArticleController {
 	public String detail(Model model, HttpServletRequest req, int id) {
 
 		Rq rq =(Rq) req.getAttribute("rq");
+		
+		ResultData<Integer> increaseViewCntRd = articleService.increaseViewCnt(id);
+
+		if (increaseViewCntRd.isFail()) {
+			return rq.jsReturnOnView(increaseViewCntRd.getMsg(), true);
+		}
+
 
 		Article article = articleService.getForPrintArticle(id);
 		
@@ -103,6 +110,23 @@ public class UsrArticleController {
 		model.addAttribute("article", article);
 
 		return "usr/article/detail";
+	}
+	
+	@RequestMapping("/usr/article/doIncreaseViewCount")
+	@ResponseBody
+	public ResultData<Integer> doIncreaseHitCount(int id) {
+
+		ResultData<Integer> increaseHitCountRd = articleService.increaseViewCount(id);
+
+		if (increaseHitCountRd.isFail()) {
+			return increaseHitCountRd;
+		}
+
+		ResultData<Integer> rd = ResultData.from(increaseHitCountRd.getResultCode(), increaseHitCountRd.getMsg(), "hitCount", articleService.getArticleViewCount(id));
+
+		rd.setData2("id", id);
+
+		return rd;
 	}
 
 	

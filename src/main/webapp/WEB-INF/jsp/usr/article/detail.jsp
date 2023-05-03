@@ -3,6 +3,28 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="pageTitle" value="detail" />
 <%@ include file="../common/head.jsp" %>
+<script>
+	const params = {};
+	params.id = parseInt('${param.id}');
+	
+	function ArticleDetail_increaseViewCount() {
+		$.get('doIncreaseViewCount', {
+			id : params.id
+		}, function(data){
+			$('#articleDetail_increaseViewCount').empty().html(data.data1);
+		}, 'json')
+	}
+	
+	$(function(){
+		//실전코드
+// 		ArticleDetail_increaseViewCount();
+		
+		//테스트코드
+		setTimeout(ArticleDetail_increaseHitCount, 2000);
+	})
+	
+</script>
+
 	<section class="mt-8 text-xl">
 		<div class="container mx-auto px-3">
 			<div class="table-box-type-1">
@@ -29,6 +51,10 @@
 					<tr>
 						<th>내용</th>
 						<td>${article.body }</td>
+					</tr>
+					<tr>
+						<th>조회수</th>
+						<td>${article.viewCnt}</td>
 					</tr>
 				</table>
 			</div>

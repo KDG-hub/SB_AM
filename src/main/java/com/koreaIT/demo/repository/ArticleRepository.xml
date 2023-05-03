@@ -30,6 +30,12 @@
 		SELECT LAST_INSERT_ID()
 	</select>
 	
+	<update id="increaseViewCnt">
+		UPDATE article
+			SET viewCnt = viewCnt +1
+			WHERE id = #{id}
+	</update>
+	
 	<select id="getArticles" resultType="Article">
 		SELECT A.*, M.name AS writerName 
 			FROM article AS A
