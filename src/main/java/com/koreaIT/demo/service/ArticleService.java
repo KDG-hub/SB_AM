@@ -78,20 +78,8 @@ private ArticleRepository articleRepository;
 		return articleRepository.getBoardCount(boardId, searchKeywordType, searchKeyword);
 	}
 
-	public ResultData<Integer> increaseViewCnt(int id) {
-		
-		int affectedRowsCount = articleRepository.increaseViewCnt(id);
-
-		if (affectedRowsCount == 0) {
-			return ResultData.from("F-1", "해당 게시물은 존재하지 않습니다", "affectedRowsCount", affectedRowsCount);
-		}
-
-		return ResultData.from("S-1", "조회수 증가", "affectedRowsCount", affectedRowsCount);
+	public void increaseViewCnt(int id) {
+		articleRepository.increaseViewCnt(id);
 	}
 
-	public int getArticleViewCount(int id) {
-		return articleRepository.getArticleViewCount(id);
-	}
-
-	
 }

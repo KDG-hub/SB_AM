@@ -8,6 +8,15 @@
 	params.id = parseInt('${param.id}');
 	
 	function ArticleDetail_increaseViewCount() {
+
+		const localStorageKey = 'article_[' + params.id + ']_alreadyView';
+		
+		if (localStorage.getItem(localStorageKey)) {
+			return;
+		}
+		
+		localStorage.setItem(localStorageKey, true);
+
 		$.get('doIncreaseViewCount', {
 			id : params.id
 		}, function(data){
@@ -17,9 +26,10 @@
 	
 	$(function(){
 		//실전코드
-		ArticleDetail_increaseViewCount();
+// 		ArticleDetail_increaseHitCount();
 		
-
+		//테스트코드
+		setTimeout(ArticleDetail_increaseHitCount, 2000);
 	})
 	
 </script>
@@ -61,7 +71,7 @@
 				<button type="button" onclick="history.back();">뒤로가기</button>&nbsp;
 				<c:if test="${article.actorCanChangeData }">
 					<a class="btn-text-link" href="modify?id=${article.id }">수정</a>&nbsp;
-					<a class="btn-text-link" href="doDelete?id${article.id }" onclick ="if(confirm("정말 삭제하시겠습니까?") == false) return false;" >삭제</a>
+					<a class="btn-text-link" href="doDelete?id${article.id }" onclick = "if(confirm("정말 삭제하시겠습니까?") == false) return false;" >삭제</a>
 				</c:if>
 			</div>
 		</div>

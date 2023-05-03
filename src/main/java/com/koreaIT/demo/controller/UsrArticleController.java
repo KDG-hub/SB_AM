@@ -2,7 +2,9 @@ package com.koreaIT.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -92,16 +94,37 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/detail")
-	public String detail(Model model, HttpServletRequest req, int id) {
+	public String detail(Model model, HttpServletRequest req, HttpServletResponse resp, int id) {
 
 		Rq rq =(Rq) req.getAttribute("rq");
 		
-		ResultData<Integer> increaseViewCntRd = articleService.increaseViewCnt(id);
 
-		if (increaseViewCntRd.isFail()) {
-			return rq.jsReturnOnView(increaseViewCntRd.getMsg(), true);
+		Cookie oldCookie = null;
+		Cookie[] cookies = req.getCookies();
+
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("hitCount")) {
+					oldCookie = cookie;
+				}
+			}
 		}
 
+		if (oldCookie != null) {
+			if (!oldCookie.getValue().contains("[" + id + "]")) {
+				articleService.increaseViewCnt(id);
+				oldCookie.setValue(oldCookie.getValue() + "_[" + id + "]");
+				oldCookie.setPath("/");
+				oldCookie.setMaxAge(30 * 60);
+				resp.addCookie(oldCookie);
+			}
+		} else {
+			articleService.increaseViewCnt(id);
+			Cookie newCookie = new Cookie("hitCount", "[" + id + "]");
+			newCookie.setPath("/");
+			newCookie.setMaxAge(30 * 60);
+			resp.addCookie(newCookie);
+		}
 
 		Article article = articleService.getForPrintArticle(id);
 		
@@ -112,23 +135,22 @@ public class UsrArticleController {
 		return "usr/article/detail";
 	}
 	
-	@RequestMapping("/usr/article/doIncreaseViewCount")
-	@ResponseBody
-	public ResultData<Integer> doIncreaseHitCount(int id) {
-
-		ResultData<Integer> increaseViewCountRd = articleService.increaseViewCnt(id);
-
-		if (increaseViewCountRd.isFail()) {
-			return increaseViewCountRd;
-		}
-
-		ResultData<Integer> rd = ResultData.from(increaseViewCountRd.getResultCode(), increaseViewCountRd.getMsg(), "ViewCount", articleService.getArticleViewCount(id));
-
-		rd.setData2("id", id);
-
-		return rd;
-	}
-
+//	@RequestMapping("/usr/article/doIncreaseViewCount")
+//	@ResponseBody
+//	public ResultData<Integer> doIncreaseViewCount(int id) {
+//
+//		ResultData<Integer> increaseViewCountRd = articleService.increaseViewCnt(id);
+//
+//		if (increaseViewCountRd.isFail()) {
+//			return increaseViewCountRd;
+//		}
+//
+//		ResultData<Integer> rd = ResultData.from(increaseViewCountRd.getResultCode(), increaseViewCountRd.getMsg(), "ViewCount", articleService.getArticleViewCount(id));
+//
+//		rd.setData2("id", id);
+//
+//		return rd;
+//	}
 	
 	@RequestMapping("/usr/article/modify")
 	public String modify(HttpServletRequest req, Model model ,int id) {

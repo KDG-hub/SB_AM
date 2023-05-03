@@ -47,7 +47,7 @@ public interface ArticleRepository {
 
 	public int getBoardCount(int boardId, String searchKeywordType, String searchKeyword);
 
-	public int increaseViewCnt(int id);
+	public void increaseViewCnt(int id);
 
 	public int getArticleViewCount(int id);
 
