@@ -74,16 +74,16 @@ public class UsrArticleController {
 			return rq.jsReturnOnView("존재하지 않는 게시판입니다.", true);
 		}
 		
-		int boardCount = articleService.getBoardCount(boardId, searchKeywordType, searchKeyword);
+		int articlesCnt = articleService.getBoardCount(boardId, searchKeywordType, searchKeyword);
 		
 		int itemsInAPage = 10;
-		int pagesCount =(int) Math.ceil((double)boardCount / itemsInAPage);
+		int pagesCount =(int) Math.ceil((double)articlesCnt / itemsInAPage);
 		
 		List<Article> articles = articleService.getArticles(boardId, page, itemsInAPage , searchKeywordType, searchKeyword);
 
 		model.addAttribute("articles", articles);
 		model.addAttribute("board",board);
-		model.addAttribute("boardCount", boardCount);
+		model.addAttribute("articlesCnt", articlesCnt);
 		model.addAttribute("pagesCount", pagesCount);
 		model.addAttribute("page", page);
 
@@ -116,13 +116,13 @@ public class UsrArticleController {
 	@ResponseBody
 	public ResultData<Integer> doIncreaseHitCount(int id) {
 
-		ResultData<Integer> increaseHitCountRd = articleService.increaseViewCount(id);
+		ResultData<Integer> increaseViewCountRd = articleService.increaseViewCnt(id);
 
-		if (increaseHitCountRd.isFail()) {
-			return increaseHitCountRd;
+		if (increaseViewCountRd.isFail()) {
+			return increaseViewCountRd;
 		}
 
-		ResultData<Integer> rd = ResultData.from(increaseHitCountRd.getResultCode(), increaseHitCountRd.getMsg(), "hitCount", articleService.getArticleViewCount(id));
+		ResultData<Integer> rd = ResultData.from(increaseViewCountRd.getResultCode(), increaseViewCountRd.getMsg(), "ViewCount", articleService.getArticleViewCount(id));
 
 		rd.setData2("id", id);
 

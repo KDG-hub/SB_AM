@@ -17,10 +17,9 @@
 	
 	$(function(){
 		//실전코드
-// 		ArticleDetail_increaseViewCount();
+		ArticleDetail_increaseViewCount();
 		
-		//테스트코드
-		setTimeout(ArticleDetail_increaseHitCount, 2000);
+
 	})
 	
 </script>
@@ -28,7 +27,7 @@
 	<section class="mt-8 text-xl">
 		<div class="container mx-auto px-3">
 			<div class="table-box-type-1">
-				<table class="table w-full table-zebra "" >
+				<table class="table w-full table-zebra " >
 					<colgroup>
 						<col width="200"/>
 					</colgroup>
@@ -54,7 +53,7 @@
 					</tr>
 					<tr>
 						<th>조회수</th>
-						<td>${article.viewCnt}</td>
+						<td><span class="badge" id="articleDetail_increaseViewCount">${article.viewCnt }</span></td>
 					</tr>
 				</table>
 			</div>

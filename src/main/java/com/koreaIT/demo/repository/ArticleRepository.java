@@ -49,4 +49,6 @@ public interface ArticleRepository {
 
 	public int increaseViewCnt(int id);
 
+	public int getArticleViewCount(int id);
+
 }
