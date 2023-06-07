@@ -30,11 +30,14 @@
 			<c:if test="${rq.getLoginedMemberId()  == 0}">
 				<li class="hover:underline"><a class="h-full px-3 flex items-center btn btn-primary" href="/usr/member/login"><span>LOGIN</span></a></li>
 			</c:if>
-			<c:if test="${rq.getLoginedMemberId()  == 0}">
-				<li class="hover:underline"><a class="h-full px-3 flex items-center btn btn-primary" href="/usr/member/join"><span>JOIN</span></a></li>
-			</c:if>
 			<c:if test="${rq.getLoginedMemberId()  != 0}">	
 				<li class="hover:underline"><a class="h-full px-3 flex items-center btn btn-primary" href="/usr/member/doLogout"><span>LOGOUT</span></a></li>
 			</c:if>
 		</ul>
 	</div>
+	
+	<section class="my-3 text-2xl">
+		<div class="container mx-auto px-3">
+			<h1>${pageTitle }</h1>
+		</div>
+	</section>
