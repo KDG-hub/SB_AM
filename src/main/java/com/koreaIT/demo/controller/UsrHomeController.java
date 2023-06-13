@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class UsrHomeController {
 	@RequestMapping("/usr/home/main")
-	public String showMain(Model model, @RequestParam(defaultValue = "") String searchKeyword) {
-		model.addAttribute("searchKeyword", searchKeyword);
-		return "usr/home/main";
+	public String showMain() {
+		return "usr/home/main3";
 	}
 	
 	@RequestMapping("/")

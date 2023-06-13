@@ -3,13 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="pageTitle" value="Main" />
 <%@ include file="../common/head.jsp" %>
+	
 	<section class="mt-3 ">
 		<div class="container mx-auto h-screen pl-3">
-		<div>
-			<form>
-				<input class="ml-2 w-80 input input-bordered" name="searchKeyword" placeholder="검색어를 입력해주세요" maxlength="20" value="${searchKeyword }"/>
-				<button class="ml-2 btn-text-link btn btn-active btn-ghost">검색</button>
-			</form>
+		<div class="flex flex-end">
+			<form onsubmit="searchPlaces(); return false;">
+	            <input type="text" id="keyword" size="15"> 
+	            <button type="submit">검색하기</button> 
+	        </form>
 		</div>	
 		<div id="map" style="width:100%; height:80%;"></div>
 		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=8cae663d1a02379b242bd02eb6ef6be3&libraries=services,clusterer,drawing"></script>
@@ -75,52 +76,51 @@
 		    map.setCenter(locPosition);      
 		}   
 		
-		var ps = new kakao.maps.services.Places();
+		// 장소 검색 객체를 생성합니다
+		var ps = new kakao.maps.services.Places();  
 		
-	    var keyword = "식당";
-	    var options = {
-	        location: locPosition,
-	        radius: 10000,
-	        sort: kakao.maps.services.SortBy.DISTANCE,
-	        };
+		// 키워드로 장소를 검색합니다
+		searchPlaces();
 		
-		ps.keywordSearch(keyword, placesSearchCB, options); 
-
-		// 키워드 검색 완료 시 호출되는 콜백함수 입니다
-		function placesSearchCB (data, status, pagination) {
+		// 키워드 검색을 요청하는 함수입니다
+		function searchPlaces() {
+		
+		    var keyword = document.getElementById('keyword').value;
+		
+		    if (!keyword.replace(/^\s+|\s+$/g, '')) {
+		        alert('키워드를 입력해주세요!');
+		        return false;
+		    }
+		
+		    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+		    ps.keywordSearch( keyword, placesSearchCB); 
+		}
+		
+		// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
+		function placesSearchCB(data, status, pagination) {
 		    if (status === kakao.maps.services.Status.OK) {
-
-		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-		        // LatLngBounds 객체에 좌표를 추가합니다
-		        var bounds = new kakao.maps.LatLngBounds();
-
-		        for (var i=0; i<data.length; i++) {
-		            displayMarker(data[i]);    
-		            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-		        }       
-
-		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-		        map.setBounds(bounds);
-		    } 
+		
+		        // 정상적으로 검색이 완료됐으면
+		        // 검색 목록과 마커를 표출합니다
+		        displayPlaces(data);
+		
+		        // 페이지 번호를 표출합니다
+		        displayPagination(pagination);
+		
+		    } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+		
+		        alert('검색 결과가 존재하지 않습니다.');
+		        return;
+		
+		    } else if (status === kakao.maps.services.Status.ERROR) {
+		
+		        alert('검색 결과 중 오류가 발생했습니다.');
+		        return;
+		
+		    }
 		}
-	
-		// 지도에 마커를 표시하는 함수입니다
-		function displayMarker(place) {
-		    
-		    // 마커를 생성하고 지도에 표시합니다
-		    var marker = new kakao.maps.Marker({
-		        map: map,
-		        position: new kakao.maps.LatLng(place.y, place.x) 
-		    });
-
-		    // 마커에 클릭이벤트를 등록합니다
-		    kakao.maps.event.addListener(marker, 'click', function() {
-		        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-		        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-		        infowindow.open(map, marker);
-		    });
-		}
-	
+		
+		
 		</script>
 		</div>
 	</section>
